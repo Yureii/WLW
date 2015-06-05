@@ -9,8 +9,8 @@ public class Character {
         public String name;
     // Attributs:
         protected int level;
-        protected int exp;
-        protected int expToLvlUp;
+        protected long exp;
+        protected long expToLvlUp;
         protected int life;
         protected Gold gold;
         protected boolean alive;
@@ -32,10 +32,10 @@ public class Character {
     public int getLevel() {
         return this.level;
     }
-    public int getExp() {
+    public long getExp() {
         return this.exp;
     }
-    public void setExp(int e) {
+    public void setExp(long e) {
         this.exp = e;
     }
     public int getLife() {
@@ -72,17 +72,27 @@ public class Character {
             this.setExp(this.getExp() + e);
         }
         else {
+            // We get the overflow amount of exp after the level up
+            long s = this.getExp() + e - computeExpToLvlUp();
+            // We actually level up
             this.levelUp();
+            // And get the overflow exp back
+            this.setExp(s);
         }
     }
     public void levelUp() {
         this.level++;
     }
-    public int computeExpToLvlUp() {
-        return 5*this.level;
+    public long computeExpToLvlUp() {
+        long exp = 0;
+        for(int lvl = 1; lvl <= this.getLevel(); lvl++) {
+            exp += lvl + 300*Math.pow(2, lvl/6.0 );
+            exp = exp/4;
+        }
+        return exp;
     }
     
-    public int getExpToLvlUp() {
+    public long getExpToLvlUp() {
         return this.expToLvlUp;
     }
 }
