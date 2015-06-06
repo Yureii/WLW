@@ -32,7 +32,6 @@ import Core.Monster;
  */
 public class Fam_Arachne extends Monster {
     public Fam_Arachne(String name) {
-        super(name);
     }
 
     @Override

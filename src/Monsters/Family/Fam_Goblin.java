@@ -31,7 +31,6 @@ import Core.Monster;
  */
 public abstract class Fam_Goblin extends Monster {
     public Fam_Goblin(String name) {
-        super(name);
     }   
     
     @Override
