@@ -29,15 +29,58 @@ import Monsters.Affixes.*;
  *
  * @author Alexis
  */
-public abstract class Monster extends Character {
+public class Monster {
+    protected String Name;
+    protected int Level;
+    protected long ExpToGive;
+    protected int Health;
+    protected Gold GoldToGive;
+    public boolean IsAlive;
     protected Affixe availableAffixes[];
     
     public Monster() {}
-    public Monster(String name) {
-        super(name);
+    public Monster(int lvl) {
+        this.Level = lvl;
+        this.GoldToGive = new Gold();
+        this.ComputeHealth();
+        this.ComputeExpToGive();
+        this.ComputeGoldToGive();
         this.setAffixe();
     }
     
-    public abstract void setAffixe();
-        
+    public void setAffixe() {};
+    
+    public void getHit(int dmg) {
+        if(this.Health > dmg) {
+            this.Health -= dmg;
+        }
+        else {
+            this.die();
+        }
+    }
+    
+    public void die() {
+        this.IsAlive = false;
+    }
+    
+    public void ComputeExpToGive() {
+        this.ExpToGive = this.Level * 2;
+    }
+    
+    public void ComputeHealth() {
+        this.Health = this.Level;
+    }
+    
+    public long GetExpToGive() {
+        return this.ExpToGive;
+    }
+    
+    public void ComputeGoldToGive() {
+        this.GoldToGive.setAmount(this.Level * 3);
+    }
+    
+    public int GetGoldToGive() {
+        return this.GoldToGive.getAmount();
+    }
+    
 }

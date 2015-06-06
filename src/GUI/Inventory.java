@@ -24,21 +24,12 @@ import javax.swing.JTextArea;
  * @author Alexis
  */
 public class Inventory extends JPanel {
-    private Stuff stuff;
-    private Mage chara;
-    
     private JPanel content;
     private JTextArea textarea;
     private JLabel label;
     private JButton button;
     
     public Inventory() {
-        super();
-    }
-    public Inventory(Mage c, Stuff s) {
-        this();
-        this.chara = c;
-        this.stuff = s;
         // Customise le JPanel:
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
@@ -91,7 +82,7 @@ public class Inventory extends JPanel {
     }
     
     public void updateCharInfo() {
-        String text = "\n";
+    /*    String text = "\n";
         text += this.chara.name;
         text += "\n";
         text += this.chara.getGold().getAmount() + " Golds";
@@ -110,5 +101,6 @@ public class Inventory extends JPanel {
         text += "\n";
         text += "Intel: " + this.chara.getIntel();
         this.textarea.setText(text);
+            */
     }
 }

@@ -24,17 +24,11 @@ public class ihm extends JFrame {
     private Inventory inv;
     private Map map;
     private SpellBook book;
-    public History history;
+    public BattleLog battleLog;
     private Menu menu;
-    
-    private Mage c;
-    private Stuff s;
-    
+        
     public ihm() {
         super();
-    }
-    public ihm(Mage c, Stuff s) {
-        this(); 
         // Setting up the system Look and Feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -52,23 +46,21 @@ public class ihm extends JFrame {
            // handle exception
         }
         
-        this.c = c;
-        this.s = s;
-        
         // Instanciation et paramétrage de la fenêtre:
-        this.setTitle("War Lord Wizard V0.0.1");
+        this.setTitle("War Lord Wizard");
         this.setSize(1000, 600);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setBackground(Color.WHITE);
 
         // On choisi le Layout null pour placer les ContentPane:
         this.setLayout(null);
         // On instancie et positionne les JPanels nécessaires:
         this.book = new SpellBook();
-        this.inv = new Inventory(this.c, this.s);
+        this.inv = new Inventory();
         this.map = new Map();
-        this.history = new History();
+        this.battleLog = new BattleLog();
         
         // On instancie le menu:
         this.menu = new Menu(this);
@@ -77,19 +69,24 @@ public class ihm extends JFrame {
         this.getContentPane().add(this.book);
         this.getContentPane().add(this.inv);
         this.getContentPane().add(this.map);
-        this.getContentPane().add(this.history);
+        this.getContentPane().add(this.battleLog);
         
         this.book.setBounds(0, 0, 600, 550);
         this.inv.setBounds(600, 0, 200, 300);
         this.map.setBounds(800, 0, 194, 300);
-        this.history.setBounds(600, 300, 394, 250);
+        this.battleLog.setBounds(600, 300, 394, 250);
         
         this.setJMenuBar(this.menu);
         this.setVisible(true);
+        
     }
     
     public Inventory getInventory() {
         return this.inv;
+    }
+    
+    public BattleLog getBattleLog() {
+        return this.battleLog;
     }
     
 }

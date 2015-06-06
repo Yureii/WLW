@@ -14,8 +14,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.text.Format;
 import java.text.MessageFormat;
 import javax.swing.BorderFactory;
@@ -28,13 +26,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
-public class History extends JPanel {
+import Managers.BattleLogManager;
+import java.awt.Font;
+import javax.swing.text.DefaultCaret;
+
+public class BattleLog extends JPanel {
     private JPanel content;
     private JFormattedTextField formula;
     private JLabel label;
     private JTextArea textarea;
-    
-    public History() {
+    public BattleLogManager BattleLogManager;
+        
+    public BattleLog() {
+        // Set a BattleLogManager
+            this.BattleLogManager = new BattleLogManager(this);
         // On set un BorderLayout sur ce JPanel:
             this.setLayout(new BorderLayout());
         // On customize le Panel:
@@ -47,39 +52,7 @@ public class History extends JPanel {
         JPanel formulaPane = new JPanel();
             this.formula = new JFormattedTextField();
             this.formula.setPreferredSize(new Dimension(350, 20));
-            this.formula.addKeyListener(new KeyListener() {
-                @Override
-                public void keyTyped(KeyEvent ke) {}
-                @Override
-                public void keyPressed(KeyEvent ke) {
-                    if(ke.getKeyCode() == KeyEvent.VK_ENTER) {
-                        if(formula.getText().equals("") || formula.getText().equals(" ")) {
-                            System.out.println("Pas de texte !");
-                        }
-                        else if(formula.getText().equals("!help")) {
-                            textarea.setText(textarea.getText() + "« " + formula.getText()+"\n");
-                            formula.setText("");
-                            textarea.setText(textarea.getText() + "» There is the list of all accepted commands and their effect:\n");
-                            textarea.setText(textarea.getText() + "\t!help: What you are reading right now.\n");
-                            textarea.setText(textarea.getText() + "\t!clear: Clears all the battlelog.\n");
-                            textarea.setText(textarea.getText() + "\t!offense: Displays unlocked offense tree spells.\n");
-                            textarea.setText(textarea.getText() + "\t!defense: Displays unlocked defense tree spells.\n");
-                            textarea.setText(textarea.getText() + "\t!buff: DIsplays unlocked buff tree spells\n");
-                            textarea.setText(textarea.getText() + "\t!binding: Displays unlocked binding words.\n");
-                        }
-                        else if(formula.getText().equals("!clear")) {
-                            textarea.setText("» Battle Log cleared\n");
-                            formula.setText("");
-                        }
-                        else {
-                            textarea.setText(textarea.getText() + "« " + formula.getText()+"\n");
-                            formula.setText("");
-                        }
-                    }
-                }
-                @Override
-                public void keyReleased(KeyEvent ke) {}
-            });
+            this.formula.addKeyListener(this.BattleLogManager);
             formulaPane.add(formula);
         this.content = new JPanel();
             this.textarea = new JTextArea();
@@ -87,6 +60,11 @@ public class History extends JPanel {
             this.textarea.setMargin(new Insets(5,5,5,5));
             this.textarea.setWrapStyleWord(true);
             this.textarea.setEditable(false);
+            this.textarea.setFont(new Font("Arial", Font.PLAIN, 12));
+            
+            DefaultCaret caret = (DefaultCaret)textarea.getCaret();
+            caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+            
             JScrollPane scrollTeaxtarea = new JScrollPane(this.textarea);
             scrollTeaxtarea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             scrollTeaxtarea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -98,9 +76,26 @@ public class History extends JPanel {
         this.add(labelPane, BorderLayout.NORTH);
         this.add(content, BorderLayout.CENTER);
         this.add(formulaPane, BorderLayout.SOUTH);
+        
     }
     
     public void print(String s) {
-        this.textarea.setText(this.textarea.getText() + "» " + s + "\n");
+        this.textarea.setText(s + "\n");
     }
+    
+    public void clear() {
+        this.textarea.setText("");
+    }
+    
+    public String getText() {
+        return this.textarea.getText();
+    }
+    public String getFormula() {
+        return this.formula.getText();
+    }
+    
+    public void clearFormula() {
+        this.formula.setText("");
+    }
+    
 }

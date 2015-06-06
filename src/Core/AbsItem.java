@@ -9,7 +9,7 @@ public abstract class AbsItem implements InterfaceItem {
 
     public void sell(Mage seller)
     {
-        seller.gold.setAmount(seller.gold.getAmount()+this.price);
+        seller.Gold.setAmount(seller.Gold.getAmount()+this.price);
         
     };
     @Override

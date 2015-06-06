@@ -8,7 +8,7 @@ package warlordwizard;
 import Core.Inventory;
 import Core.Mage;
 import Core.Stuff;
-import Core.GameManager;
+import Managers.GameManager;
 import GUI.ihm;
 
 
@@ -17,22 +17,18 @@ import GUI.ihm;
  * @author Alexis
  */
 public class WarLordWizard {
-    private Mage c;
-    private Stuff s;
-    private ihm ihm;
+    private Mage Mage;
+    public ihm ihm;
     public GameManager gameManager;
     
     public WarLordWizard() {
-        this.c = new Mage("Zed");
-        this.s = new Stuff();
-        this.ihm = new ihm(c, s);
-        this.c.setArcanepower(50);
-        this.c.getGold().setAmount(0);
+        this.Mage = new Mage("Zed");
+        this.ihm = new ihm();
         this.gameManager = new GameManager(this);
     }
     
-    public void print(String s) {
-        this.ihm.history.print(s);
+    public Mage getMage() {
+        return this.Mage;
     }
     
     /**
@@ -41,7 +37,9 @@ public class WarLordWizard {
     public static void main(String[] args) {
         // TODO code application logic here
         WarLordWizard wlw = new WarLordWizard();
-        wlw.gameManager.start();
+        while(true) {
+            wlw.gameManager.Update();
+        }
     }
     
 }

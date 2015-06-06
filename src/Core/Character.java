@@ -6,48 +6,48 @@ package Core;
  */
 public class Character {
     // Lore:
-        public String name;
+        public String Name;
     // Attributs:
-        protected int level;
-        protected long exp;
-        protected long expToLvlUp;
-        protected int life;
-        protected Gold gold;
-        protected boolean alive;
+        protected int Level;
+        protected long Exp;
+        protected long ExpToLvlUp;
+        protected int Health;
+        protected Gold Gold;
+        protected boolean IsAlive;
         
     public Character() {
-        this.level = 1;
-        this.exp = 0;
-        this.expToLvlUp = computeExpToLvlUp();
-        this.life = 100;
-        this.gold = new Gold();
-        this.gold.setAmount(0);
-        this.alive = true;
+        this.Level = 1;
+        this.Exp = 0;
+        this.ExpToLvlUp = ComputeExpToLvlUp();
+        this.Health = 100;
+        this.Gold = new Gold();
+        this.Gold.setAmount(0);
+        this.IsAlive = true;
     }
     public Character(String n) {
         this();
-        this.name = n;
+        this.Name = n;
     }
     
     public int getLevel() {
-        return this.level;
+        return this.Level;
     }
     public long getExp() {
-        return this.exp;
+        return this.Exp;
     }
     public void setExp(long e) {
-        this.exp = e;
+        this.Exp = e;
     }
     public int getLife() {
-        return this.life;
+        return this.Health;
     }
     public void setLife(int l) {
-        this.life = l;
+        this.Health = l;
     }
     
     public void getHit(int dmg) {
-        if(this.life > dmg) {
-            this.life -= dmg;
+        if(this.Health > dmg) {
+            this.Health -= dmg;
         }
         else {
             this.die();
@@ -55,35 +55,38 @@ public class Character {
     }
     
     public Gold getGold() {
-        return this.gold;
+        return this.Gold;
+    }
+    public void setGold(int value) {
+        this.Gold.setAmount(value);
     }
     public void die() {
-        this.alive = false;
+        this.IsAlive = false;
     }
     public void revive() {
-        this.alive = true;
+        this.IsAlive = true;
     }
  
     public boolean isAlive() {
-        return this.alive;
+        return this.IsAlive;
     }
-    public void receiveExp(int e) {
-        if(this.getExp() + e < this.expToLvlUp) {
+    public void receiveExp(long e) {
+        if(this.getExp() + e < this.ExpToLvlUp) {
             this.setExp(this.getExp() + e);
         }
         else {
-            // We get the overflow amount of exp after the level up
-            long s = this.getExp() + e - computeExpToLvlUp();
-            // We actually level up
+            // We get the overflow amount of Exp after the Level up
+            long s = this.getExp() + e - ComputeExpToLvlUp();
+            // We actually Level up
             this.levelUp();
-            // And get the overflow exp back
+            // And get the overflow Exp back
             this.setExp(s);
         }
     }
     public void levelUp() {
-        this.level++;
+        this.Level++;
     }
-    public long computeExpToLvlUp() {
+    public long ComputeExpToLvlUp() {
         long exp = 0;
         for(int lvl = 1; lvl <= this.getLevel(); lvl++) {
             exp += lvl + 300*Math.pow(2, lvl/6.0 );
@@ -93,6 +96,6 @@ public class Character {
     }
     
     public long getExpToLvlUp() {
-        return this.expToLvlUp;
+        return this.ExpToLvlUp;
     }
 }

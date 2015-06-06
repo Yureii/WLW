@@ -9,12 +9,8 @@ package Core;
  *
  * @author Alexis
  */
-public class Global {
-    public enum GameStates {
-        None,
-        PlayerTurn,
-        EnemyTurn;        
-    }
-    
-    public static GameStates GameState;
+public enum GameStates {
+    None,
+    PlayerTurn,
+    EnemyTurn;        
 }
