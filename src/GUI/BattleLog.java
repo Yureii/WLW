@@ -51,6 +51,7 @@ public class BattleLog extends JPanel {
             labelPane.add(label);
         JPanel formulaPane = new JPanel();
             this.formula = new JFormattedTextField();
+            //this.formula.
             this.formula.setPreferredSize(new Dimension(350, 20));
             this.formula.addKeyListener(this.BattleLogManager);
             formulaPane.add(formula);
@@ -80,7 +81,7 @@ public class BattleLog extends JPanel {
     }
     
     public void print(String s) {
-        this.textarea.setText(s + "\n");
+        this.textarea.setText(s + "\n"); 
     }
     
     public void clear() {

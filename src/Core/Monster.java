@@ -66,7 +66,7 @@ public class Monster {
     }
     
     public void ComputeExpToGive() {
-        this.ExpToGive = this.Level * 2;
+        this.ExpToGive = this.Level * 50;
     }
     
     public void ComputeHealth() {

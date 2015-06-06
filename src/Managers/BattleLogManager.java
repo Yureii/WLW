@@ -41,7 +41,7 @@ public class BattleLogManager implements KeyListener {
     @Override public void keyTyped(KeyEvent e) {}
     @Override public void keyReleased(KeyEvent e) {}
     
-    private void print(String s) {
+    public void print(String s) {
         this.BattleLog.print(this.BattleLog.getText() + s);
     }
     
@@ -124,10 +124,14 @@ public class BattleLogManager implements KeyListener {
     public void EnemyAppears() {
         this.print("» A new monster appeared");
     }
-    public void EnemyDies(long exp, int gold) {
-        this.print("» You have killed the monster. You gained " + exp + " exp and " + gold + " gold.");
+    public void EnemyDies(long exp, long tolvlup, int gold) {
+        this.print("» You have defeated the enemy. You gained " + exp + " exp ("+tolvlup+" to level up) and " + gold + " gold.");
     }
     public void EnteringLevel(int lvl) {
         this.print("» You are entering level " + lvl);
+    }
+    
+    public void EnemyHit(int dmg, int health) {
+        this.print("» You hit the enemy for " + dmg + " damage. The enemy has " + health + " health remaining.");
     }
 }

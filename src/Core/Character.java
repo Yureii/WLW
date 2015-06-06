@@ -70,9 +70,16 @@ public class Character {
     public boolean isAlive() {
         return this.IsAlive;
     }
-    public void receiveExp(long e) {
+    /**
+     * Will return true if the character leveled up
+     * false if he does not.
+     * @param e
+     * @return 
+     */
+    public boolean receiveExp(long e) {
         if(this.getExp() + e < this.ExpToLvlUp) {
             this.setExp(this.getExp() + e);
+            return false;
         }
         else {
             // We get the overflow amount of Exp after the Level up
@@ -81,6 +88,9 @@ public class Character {
             this.levelUp();
             // And get the overflow Exp back
             this.setExp(s);
+            // Recompute the exp to level up
+            this.ComputeExpToLvlUp();
+            return true;
         }
     }
     public void levelUp() {
@@ -96,6 +106,6 @@ public class Character {
     }
     
     public long getExpToLvlUp() {
-        return this.ExpToLvlUp;
+        return this.ExpToLvlUp - this.Exp;
     }
 }
