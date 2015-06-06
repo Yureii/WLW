@@ -42,7 +42,9 @@ public class Monster {
     public Monster(int lvl) {
         this.Level = lvl;
         this.GoldToGive = new Gold();
-        this.ComputeHealth();
+        this.Health = 10;
+        this.IsAlive = true;
+        //this.ComputeHealth();
         this.ComputeExpToGive();
         this.ComputeGoldToGive();
         this.setAffixe();
@@ -68,7 +70,7 @@ public class Monster {
     }
     
     public void ComputeHealth() {
-        this.Health = this.Level;
+        this.Health = this.Level*5;
     }
     
     public long GetExpToGive() {
@@ -81,6 +83,10 @@ public class Monster {
     
     public int GetGoldToGive() {
         return this.GoldToGive.getAmount();
+    }
+ 
+    public int GetHealth() {
+        return this.Health;
     }
     
 }
