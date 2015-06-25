@@ -7,6 +7,9 @@ package Managers;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import static jdk.nashorn.internal.objects.NativeString.substring;
+import java.util.List;
+import java.util.ArrayList;
+//import java.util.ListIterator;
 
 import GUI.BattleLog;
 
@@ -17,23 +20,48 @@ import GUI.BattleLog;
 public class BattleLogManager implements KeyListener {
     private boolean IsNewInput;
     public BattleLog BattleLog;
+    private int count;
+    private List history_list;
     
     public BattleLogManager(BattleLog battleLog) {
         this.IsNewInput = false;
         this.BattleLog = battleLog;
+        this.history_list = new ArrayList();
+        this.history_list.add("");
+        this.count = 0;
     }
  
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-            this.IsNewInput = true;
-            String s = this.BattleLog.getFormula().trim(); // remove first and last whitespaces
+            String s = this.BattleLog.GetFormulaText().trim(); // remove first and last whitespaces
             if(s.isEmpty());
-            else if(s.substring(0, 1).equals("!")) {
-                this.ResolveCommand(s);
-            }
             else {
-                this.ResolveFormula(s);
+                history_list.add(s);
+                count = history_list.size();
+                if(s.substring(0, 1).equals("!")) {
+                    this.ResolveCommand(s);
+                }
+                else {
+                    this.ResolveFormula(s);
+                    this.IsNewInput = true;
+                }
+            }
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_UP) {
+            count--;
+            if(count < 0) { count = 0; this.BattleLog.setFormula("", false); }
+            else if(count >=this.history_list.size()) count = this.history_list.size() - 1;
+            else {
+                this.BattleLog.setFormula(this.history_list.get(count).toString(), false);
+            }
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+            count++;
+            if(count < 0) count = 0;
+            else if(count >=this.history_list.size()) { count = this.history_list.size() - 1;  this.BattleLog.setFormula("", false);  }
+            else {
+                this.BattleLog.setFormula(this.history_list.get(count).toString(), false);
             }
         }
     }
@@ -42,45 +70,49 @@ public class BattleLogManager implements KeyListener {
     @Override public void keyReleased(KeyEvent e) {}
     
     public void print(String s) {
-        this.BattleLog.print(this.BattleLog.getText() + s);
+        this.BattleLog.print(s, true, true);
     }
     
     private void ResolveCommand(String s) {
         switch(s) {
             case "!help":
-                this.print("« "+ this.BattleLog.getFormula());
+                this.print("« "+ this.BattleLog.GetFormulaText());
                 this.print("» There is the list of all accepted commands and their effect:");
-                this.print("\t!help: What you are reading right now.");
-                this.print("\t!save: Save the game");
-                this.print("\t!load: Load at previous save state.");
-                this.print("\t!clear: Clears the battlelog.");
-                this.print("\t!offense: Displays unlocked offense tree spells.");
-                this.print("\t!defense: Displays unlocked defense tree spells.");
-                this.print("\t!buff: Displays unlocked buff tree spells.");
-                this.print("\t!binding: Displays unlocked binding words.");
+                this.print("    !help: What you are reading right now.");
+                this.print("    !save: Save the game");
+                this.print("    !load: Load at previous save state.");
+                this.print("    !clear: Clears the battlelog.");
+                this.print("    !offense: Displays unlocked offense tree spells.");
+                this.print("    !defense: Displays unlocked defense tree spells.");
+                this.print("    !buff: Displays unlocked buff tree spells.");
+                this.print("    !binding: Displays unlocked binding words.");
                 break;
             case "!clear":
                 this.BattleLog.clear();
                 this.print("» BattleLog Cleared");
                 break;
             case "!save":
-                this.print("Not supported yet.");
+                this.print("« !save\n» Not supported yet.");
                 break;
             case "!load":
-                this.print("Not supported yet.");
+                this.print("« !load\n» Not supported yet.");
                 break;
             case "!offense":
-                this.print("Not supported yet.");
+                this.print("« !offense\n» Not supported yet.");
                 break;
             case "!defense":
-                this.print("Not supported yet.");
+                this.print("« !defense\n» Not supported yet.");
                 break;
             case "!buff":
-                this.print("Not supported yet.");
+                this.print("« !buff\n» Not supported yet.");
                 break;
             case "!binding":
-                this.print("Not supported yet.");
+                this.print("« !binding\n» Not supported yet.");
                 break;
+            case "!c":
+                this.count = 0;
+                break;
+            
             default:
                 this.print("» Unknown command: " + s);
         }
@@ -128,7 +160,7 @@ public class BattleLogManager implements KeyListener {
         this.print("» You have defeated the enemy. You gained " + exp + " exp ("+tolvlup+" to level up) and " + gold + " gold.");
     }
     public void EnteringLevel(int lvl) {
-        this.print("» You are entering level " + lvl);
+        this.print("» You are entering floor " + lvl);
     }
     
     public void EnemyHit(int dmg, int health) {

@@ -17,7 +17,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JEditorPane;
 
 /**
  *
@@ -25,7 +25,7 @@ import javax.swing.JTextArea;
  */
 public class Inventory extends JPanel {
     private JPanel content;
-    private JTextArea textarea;
+    private JEditorPane textarea;
     private JLabel label;
     private JButton button;
     
@@ -41,9 +41,8 @@ public class Inventory extends JPanel {
         // On crée deux conteneurs:
         JPanel stats = new JPanel();
             stats.setBackground(Color.WHITE);
-            this.textarea = new JTextArea();
+            this.textarea = new JEditorPane("text/html", "");
             this.textarea.setEditable(false);
-            this.updateCharInfo();
             stats.add(textarea);
         JPanel inv = new JPanel();
             inv.setBackground(Color.WHITE);
@@ -64,7 +63,6 @@ public class Inventory extends JPanel {
                 public void actionPerformed(ActionEvent ae) {
                     card.next(content);
                     if(button.getText().equals("Switch to Character")) {
-                        updateCharInfo();
                         button.setText("Switch to Inventory");
                         label.setText("Character");
                     }
@@ -81,26 +79,8 @@ public class Inventory extends JPanel {
         this.add(buttonPane, BorderLayout.SOUTH);
     }
     
-    public void updateCharInfo() {
-    /*    String text = "\n";
-        text += this.chara.name;
-        text += "\n";
-        text += this.chara.getGold().getAmount() + " Golds";
-        text += "\n";
-        text += "\n";
-        text += "Level: " + this.chara.getLevel();
-        text += "\n";
-        text += "Experience: " + this.chara.getExp();
-        text += "\n";
-        text += "To level up: " + this.chara.getExpToLvlUp();
-        text += "\n";
-        text += "\n";
-        text += "Life: " + this.chara.getLife();
-        text += "\n";
-        text += "Arcane Power: " + this.chara.getArcanePower();
-        text += "\n";
-        text += "Intel: " + this.chara.getIntel();
-        this.textarea.setText(text);
-            */
+    
+    public void SetTextarea(String s) {
+        this.textarea.setText(s);
     }
 }

@@ -57,10 +57,10 @@ public class ihm extends JFrame {
         // On choisi le Layout null pour placer les ContentPane:
         this.setLayout(null);
         // On instancie et positionne les JPanels nécessaires:
-        this.book = new SpellBook();
         this.inv = new Inventory();
         this.map = new Map();
         this.battleLog = new BattleLog();
+        this.book = new SpellBook(this.battleLog);
         
         // On instancie le menu:
         this.menu = new Menu(this);

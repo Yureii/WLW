@@ -28,6 +28,9 @@ import javax.swing.border.EtchedBorder;
 
 import Managers.BattleLogManager;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.text.DefaultCaret;
 
 public class BattleLog extends JPanel {
@@ -50,11 +53,20 @@ public class BattleLog extends JPanel {
             label = new JLabel("Battle Logs", JLabel.CENTER);
             labelPane.add(label);
         JPanel formulaPane = new JPanel();
+            JButton clearBtn = new JButton("Clear");
+            clearBtn.setFocusPainted(false);
+            clearBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    formula.setText("");
+                }
+            });
             this.formula = new JFormattedTextField();
             //this.formula.
-            this.formula.setPreferredSize(new Dimension(350, 20));
+            this.formula.setPreferredSize(new Dimension(300, 20));
             this.formula.addKeyListener(this.BattleLogManager);
-            formulaPane.add(formula);
+            formulaPane.add(formula, BorderLayout.WEST);
+            formulaPane.add(clearBtn, BorderLayout.EAST);
         this.content = new JPanel();
             this.textarea = new JTextArea();
             this.textarea.setLineWrap(true);
@@ -77,11 +89,21 @@ public class BattleLog extends JPanel {
         this.add(labelPane, BorderLayout.NORTH);
         this.add(content, BorderLayout.CENTER);
         this.add(formulaPane, BorderLayout.SOUTH);
-        
     }
     
-    public void print(String s) {
-        this.textarea.setText(s + "\n"); 
+    public void print(String s, boolean prev, boolean retchar) {
+        if(prev) {
+            if(retchar)
+                this.textarea.setText(this.getText() + s + "\n"); 
+            else
+                this.textarea.setText(this.getText() + s); 
+        }
+        else {
+            if(retchar)
+                this.textarea.setText(s + "\n"); 
+            else
+                this.textarea.setText(s); 
+        }
     }
     
     public void clear() {
@@ -91,8 +113,15 @@ public class BattleLog extends JPanel {
     public String getText() {
         return this.textarea.getText();
     }
-    public String getFormula() {
+    public String GetFormulaText() {
         return this.formula.getText();
+    }
+    
+    public void setFormula(String s, boolean prev) {
+        if(prev) 
+            this.formula.setText(this.GetFormulaText() + s);
+        else
+            this.formula.setText(s);
     }
     
     public void clearFormula() {

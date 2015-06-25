@@ -7,7 +7,7 @@ package Managers;
 import warlordwizard.*;
 import Core.GameStates;
 import Core.Monster;
-import Managers.BattleLogManager;
+import Managers.*;
 
 /**
  *
@@ -17,24 +17,26 @@ public class GameManager {
     public static WarLordWizard w;
     public GameStates GameState;
     public boolean IsFightingEnemy;
-    public int MapLevel;
+    public int FloorLevel;
     public int SubLevel;
     public Monster CurrentMonster;
-    
+    public CharacterManager CharacterManager;
+        
     public GameManager(WarLordWizard wlw) {
         this.w = wlw;
         this.IsFightingEnemy = false;
-        this.MapLevel = 1;
+        this.FloorLevel = 1;
         this.SubLevel = 1;
         this.GameState = GameStates.PlayerTurn;
+        this.CharacterManager = new CharacterManager(this.w.ihm.getInventory(), this.w.getMage());
     }
     
-    public static GameManager Instance = new GameManager(w);
     
     public void Update() {
+        this.CharacterManager.UpdateCharacter();
         // if an enemy is not being fought
         if(!IsFightingEnemy) {
-            this.CurrentMonster = new Monster(this.MapLevel); // An enemy appears
+            this.CurrentMonster = new Monster(this.FloorLevel); // An enemy appears
             this.IsFightingEnemy = true; // FIGHT HIM § :<
             this.w.ihm.getBattleLog().BattleLogManager.EnemyAppears();
         }
@@ -57,7 +59,7 @@ public class GameManager {
                 this.IsFightingEnemy = false;
                 if(this.w.getMage().receiveExp(this.CurrentMonster.GetExpToGive())) {// Get the exp
                     this.w.ihm.getBattleLog().BattleLogManager.EnemyDies(this.CurrentMonster.GetExpToGive(), this.w.getMage().getExpToLvlUp(), this.CurrentMonster.GetGoldToGive());
-                    this.print("» You have leveled up !");
+                    this.print("» Level up ! You have reached the level " + this.w.getMage().getLevel());
                 }
                 else 
                     this.w.ihm.getBattleLog().BattleLogManager.EnemyDies(this.CurrentMonster.GetExpToGive(), this.w.getMage().getExpToLvlUp(), this.CurrentMonster.GetGoldToGive());
@@ -65,9 +67,9 @@ public class GameManager {
                 // Increase the level we are in
                 this.SubLevel++;
                 if(this.SubLevel > 10) { // When we do 10 sublevels in a row
-                    this.MapLevel++; // We go into a higher level
+                    this.FloorLevel++; // We go into a higher level
                     this.SubLevel = 1; // And restart from 1
-                    this.w.ihm.getBattleLog().BattleLogManager.EnteringLevel(this.MapLevel);
+                    this.w.ihm.getBattleLog().BattleLogManager.EnteringLevel(this.FloorLevel);
                 }
                 this.GameState = GameStates.PlayerTurn; // No more monster so not enemy's turn anymore
             }

@@ -15,6 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import Managers.SpellBookManager;
+import Core.SpellCollection;
+
 /**
  *
  * @author Alexis
@@ -25,28 +28,22 @@ public class SpellBook extends JTabbedPane {
     private JPanel defense;
     private JPanel buffs;
     private JPanel binding;
-    private JButton[] spellsOffense;
-    private JButton[] spellsDefense;
-    private JButton[] spellsBuff;
-    private JButton[] spellsBinding;
+    private SpellCollection SpellCollection;
     
-    public SpellBook() {
-        this.setBackground(Color.white);
+    public SpellBook(BattleLog battleLog) {
+        
+        
+        this.setBackground(Color.WHITE);
         this.setForeground(Color.DARK_GRAY);
         this.setFocusable(false);
-        this.spellsOffense = new JButton[20];
-        this.spellsDefense = new JButton[20];
-        this.spellsBuff = new JButton[20];
-        this.spellsBinding = new JButton[20];
         // Onglets:
         offense = new JPanel();
             JPanel containerOffense = new JPanel();
             containerOffense.setLayout(new GridLayout(0, 5));
-            for(int i = 0; i<spellsOffense.length; i++) {
-                spellsOffense[i] = new JButton("Button "+i);
-                spellsOffense[i].setSize(80, 80);
-                spellsOffense[i].setFocusPainted(false);
-                containerOffense.add(spellsOffense[i]);
+            for(int i = 0; i<SpellCollection.INSTANCE.GetOffenseTree().size(); i++) {
+                SpellCollection.INSTANCE.GetOffenseTree().get(i).setSize(80, 80);
+                SpellCollection.INSTANCE.GetOffenseTree().get(i).setFocusPainted(false);
+                containerOffense.add(SpellCollection.INSTANCE.GetOffenseTree().get(i));
             }
             offense.setBackground(Color.WHITE);
             JPanel labelPaneOf = new JPanel();
@@ -55,13 +52,15 @@ public class SpellBook extends JTabbedPane {
             offense.setLayout(new BorderLayout());
             offense.add(labelPaneOf, BorderLayout.NORTH);
             offense.add(containerOffense, BorderLayout.CENTER);
+            /*
         defense = new JPanel();
             JPanel containerDefense = new JPanel();
             containerDefense.setLayout(new GridLayout(0, 5));
             for(int i = 0; i<spellsDefense.length; i++) {
-                spellsDefense[i] = new JButton("Button "+i);
+                spellsDefense[i] = new JButton("Defense"+(i+1));
                 spellsDefense[i].setSize(80, 80);
                 spellsDefense[i].setFocusPainted(false);
+                spellsDefense[i].addActionListener(this.sbm);
                 containerDefense.add(spellsDefense[i]);
             }
             defense.setBackground(Color.WHITE);
@@ -75,8 +74,10 @@ public class SpellBook extends JTabbedPane {
             JPanel containerBuff = new JPanel();
             containerBuff.setLayout(new GridLayout(0, 5));
             for(int i = 0; i<spellsBuff.length; i++) {
-                spellsBuff[i] = new JButton("Button "+i);
+                spellsBuff[i] = new JButton("Buff"+(i+1));
                 spellsBuff[i].setSize(80, 80);
+                spellsBuff[i].setFocusPainted(false);
+                spellsBuff[i].addActionListener(this.sbm);
                 containerBuff.add(spellsBuff[i]);
             }
             buffs.setBackground(Color.WHITE);
@@ -90,8 +91,10 @@ public class SpellBook extends JTabbedPane {
             JPanel containerBinding = new JPanel();
             containerBinding.setLayout(new GridLayout(0, 5));
             for(int i = 0; i<spellsBinding.length; i++) {
-                spellsBinding[i] = new JButton("Button "+i);
+                spellsBinding[i] = new JButton("Binding"+(i+1));
                 spellsBinding[i].setSize(80, 80);
+                spellsBinding[i].setFocusPainted(false);
+                spellsBinding[i].addActionListener(this.sbm);
                 containerBinding.add(spellsBinding[i]);
             }
             binding.setBackground(Color.WHITE);
@@ -101,9 +104,12 @@ public class SpellBook extends JTabbedPane {
             binding.setLayout(new BorderLayout());
             binding.add(containerBinding, BorderLayout.CENTER);
             binding.add(labelPaneBi, BorderLayout.NORTH);
+                    */
         this.addTab("Offense", offense);
+        /*
         this.addTab("Defense", defense);
         this.addTab("Buffs", buffs);
         this.addTab("Binding Words", binding);
+                */
     }
 }

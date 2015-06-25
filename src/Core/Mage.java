@@ -3,21 +3,26 @@ package Core;
 public class Mage extends Character {
     // Attributs
     // Caractéristiques:
+        private String name;
         private int arcanepower;
         private int intel;
         private Stuff stuff;
         protected Inventory inventory;
 
-    public Mage() {}
-    public Mage(String n) {
-        super(n);
-        
+    public Mage() {
         this.inventory = new Inventory();
         this.stuff = new Stuff();
+    }
+    public Mage(String n) {
+        super(n);
+        this.name = "Zed";
         this.arcanepower = 50;
         this.intel = 10;
     }
     
+    public String getName() {
+        return this.name;
+    }
     public int getArcanePower() {
         return this.arcanepower;
     }
